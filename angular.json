@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Tendencias": {
+    "proyecto-angular": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/tendencias",
+            "outputPath": "dist/proyecto-angular",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -64,10 +64,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "Tendencias:build:production"
+              "browserTarget": "proyecto-angular:build:production"
             },
             "development": {
-              "browserTarget": "Tendencias:build:development"
+              "browserTarget": "proyecto-angular:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -75,7 +75,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "Tendencias:build"
+            "browserTarget": "proyecto-angular:build"
           }
         },
         "test": {
@@ -99,6 +99,6 @@
     }
   },
   "cli": {
-    "analytics": "78b77986-3080-4a6c-87c9-68824acb80be"
+    "analytics": "1e3148f2-d699-4378-850d-159fd1902d2e"
   }
 }
