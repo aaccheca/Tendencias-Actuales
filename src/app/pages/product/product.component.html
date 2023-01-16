@@ -1,1 +1,47 @@
-<p>product works!</p>
+<div class="container">
+    <div class="table-responsive">
+        <table class="table table-primary">
+
+            <div class="mb-3">
+                <label for="" class="form-label">Producto:</label>
+                <input type="text" name="" id="" value="{{selectedProduct.title}}" class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label for="" class="form-label">Price:</label>
+                <input type="text" name="" id="" value="selectedProduct.price" class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label for="" class="form-label">Producto:</label>
+                <textarea name="" id="" cols="10" rows="3 [value]="selectedProduct.description" class="">
+            </div>
+
+
+            <thead>
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Categoría</th>
+                    <th scope="col">Imagen</th>
+                    <th scope="col">Editar</th>
+                    <th scope="col">Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="" *ngFor = "let product of products">
+                    <td>{{product.title}}</td>
+                    <td>{{product.price}}</td>
+                    <td>{{product.description}}</td>
+                    <td>{{product.category}}</td>
+                    <td><img src="{{product.images}}" height="200px" width="160px"></td>
+                    <td><a href="" (click) = "editProduct(product.id)"> Editar</a></td>
+                    <td><a href="" (click) = "deleteProduct(product.id)"> Eliminar</a></td>
+                
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+</div>

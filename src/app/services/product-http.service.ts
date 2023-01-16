@@ -1,59 +1,39 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import{HttpClient}from '@angular/common/http';
-import { createProduct, ProductModel, updateProduct } from '../models/product.model';
+import { map, Observable } from 'rxjs';
+import { CreateProductDto, ProductModel, UpdateProductDto } from '../models/product.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductHttpService {
 
-   /* ngOnInit(): void {
-    this.getProducts();
-    this.getProduct();
-    this.createProduct();
-    this.updateProduct();
-    //this.deleteProducts();
-  }*/
+  readonly API_URL: string = "https://api.escuelajs.co/api/v1/products";
 
-  readonly API_URL:string = 'https://api.escuelajs.co/api/v1/products';
-  constructor(private httpClient:HttpClient) { }
-  
-  getAll(){
-    const url = `${this.API_URL}`;
-    return this.httpClient.get(url)
+  constructor(private httpClient: HttpClient) { }
+
+  getAll():Observable<ProductModel[]> {
+    const url = `${this.API_URL}`; 
+    return this.httpClient.get<ProductModel[]>(url);
   }
-
-  getOne(id:number){
+  getOne(id: ProductModel['id']):Observable<ProductModel> {
     const url = `${this.API_URL}/${id}`;
-    return this.httpClient.get(url)
+    return this.httpClient.get<ProductModel>(url);
+  }
+  store(product: CreateProductDto):Observable<ProductModel> {
+    const url = `${this.API_URL}`; 
+    return this.httpClient.post<ProductModel>(url, product)
   }
 
-  store(product: createProduct){
-    const data ={
-      id:1,
-      title:"Lapiz",
-      price:20,
-      description:"Utiles Escolares - Angel Checa",
-      categoryId:1,
-      images:[""],
-    }
-    const url = `${this.API_URL}`;
-    return this.httpClient.post(url,data)
-  }
-
-  update(id:number, product:updateProduct){
-    const data={
-      title:"Calculadora",
-      price:34,
-      description:"Utiles Escolares - Angel Checa"
-    }
+  update(id: ProductModel['id'], product: UpdateProductDto):Observable<ProductModel> {
     const url = `${this.API_URL}/${id}`;
-    return this.httpClient.put(url, data)
+    return this.httpClient.put<ProductModel>(url, product);
   }
-
-  destroy(id:number){
+  destroy(id: ProductModel['id']):Observable<any> {
     const url = `${this.API_URL}/${id}`;
-    return this.httpClient.delete(url)
+    return this.httpClient.delete<any>(url).pipe(map((response: { rta: boolean; }) => {
+        return response.rta;
+      })
+      );
   }
-  
 }

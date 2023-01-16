@@ -1,4 +1,6 @@
+import { ThisReceiver } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
+import { ProductModel, UpdateProductDto } from 'src/app/models/product.model';
 import { ProductHttpService } from 'src/app/services/product-http.service';
 
 @Component({
@@ -7,69 +9,74 @@ import { ProductHttpService } from 'src/app/services/product-http.service';
   styleUrls: ['./product.component.css']
 })
 export class ProductComponent implements OnInit {
-
-  constructor(private productHttpService:ProductHttpService) { }
-
-  ngOnInit(): void {
+   products:ProductModel[] = [];
+   selectedProduct: UpdateProductDto = {};
+  constructor(private productHttpService:ProductHttpService) {
+   this.editarProduct();
+  }
+  
+  ngOnInit(): void {    
     this.getProducts();
     this.getProduct();
     this.createProduct();
     this.updateProduct();
-    //this.deleteProducts();
+    this.deleteProduct(id);
   }
+
   getProducts(){
+    const url = "https://api.escuelajs.co/api/v1/products";
     this.productHttpService.getAll().subscribe(
-      response => {
+      response =>{
+        this.products = response;
         console.log(response);
       }
-    );
+    )
   }
-
   getProduct(){
-    this.productHttpService.getOne(9).subscribe(
-      response => {
+    const url = "https://api.escuelajs.co/api/v1/products/8";
+    return this.productHttpService.getOne(2).subscribe(
+      response =>{
         console.log(response);
       }
-    );
+    )
   }
-
   createProduct(){
-    const data ={
-      id:1,
-      title:"Lapiz",
-      price:20,
-      description:"Utiles Escolares - Angel Checa",
-      categoryId:1,
-      images:[""],
+    const data = {
+      title: 'esfero',
+      price: 45,
+      description: 'utiles escolares',
+      categoryId: 1,
+      images: ["https://api.lorem.space/image/watch?w=640&h=480&r=5922", "https://api.lorem.space/image/watch?w=640&h=480&r=3622"],
     }
-    const url = "https://api.escuelajs.co/api/v1/products"
-    this.productHttpService.store().subscribe(
-      response => {
+    this.productHttpService.store(data).subscribe(
+      response =>{
         console.log(response);
       }
     )
   }
   updateProduct(){
-    const data={
-      title:"Calculadora",
-      price:34,
-      description:"Utiles Escolares - Angel Checa"
+    const data = {
+      title: 'zapatos',
+      price: 60,
+      description: 'calzado',
     }
-    const url = "https://api.escuelajs.co/api/v1/products/14";
-    this.productHttpService.update(9).subscribe(
-      response =>{
-        console.log(response);
-      }
-    )
-  }
-  deleteProducts(){
-    const url = "https://api.escuelajs.co/api/v1/products/1";
-    this.productHttpService.destroy(9).subscribe(
+    this.productHttpService.update(1, data).subscribe(
       response =>{
         console.log(response);
       }
     )
   }
 
-
+  editarProduct(){
+    this.selectedProduct = this.products.filter(product => product.id != id); 
+  }
+  
+  deleteProduct(id: ProductModel['id']){
+    this.productHttpService.destroy(id).subscribe(
+      response =>{
+        this.products = this.products.filter(product => product.id != id); 
+        console.log(response);
+      }
+    )
+  }
 }
